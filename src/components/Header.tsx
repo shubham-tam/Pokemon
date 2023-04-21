@@ -4,7 +4,6 @@ const Header = () => {
   return (
     <header className="h-28 flex items-center p-5 bg-blue-400 text-white">
       <Link to="/" className="mr-auto font-bold text-4xl">
-        {" "}
         Pokemon
       </Link>
       <nav className="flex gap-4">

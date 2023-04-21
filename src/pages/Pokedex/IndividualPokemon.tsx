@@ -1,3 +1,9 @@
+import { useEffect, useState } from "react";
+
+import { SVG_URL, PNG_URL } from "../../constants/appConfig";
+
+import IndividualPokemonCard from "./IndividualPokemonCard";
+
 interface PokemonResults {
   name?: string;
 }
@@ -13,31 +19,51 @@ interface IndividualPokemonProps {
 const IndividualPokemon = (props: IndividualPokemonProps) => {
   const { pokeData, offset, regionIndex } = props;
 
+  const [loadedImages, setLoadedImages] = useState<number[]>([]);
+
   const pokeImages = (index: number) => {
     const pokemonId = index + offset;
 
     return regionIndex > 4
-      ? `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${
-          pokemonId + 1
-        }.png`
-      : `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/${
-          pokemonId + 1
-        }.svg`;
+      ? PNG_URL + `/${pokemonId + 1}.png`
+      : SVG_URL + `/${pokemonId + 1}.svg`;
   };
+
+  useEffect(() => {
+    setLoadedImages([]);
+    const imagesToLoad = pokeData.results.map((_, index) => index);
+
+    const onLoad = (index: number) => {
+      setLoadedImages((prev) => [...prev, index]);
+    };
+
+    imagesToLoad.forEach((index) => {
+      const img = new Image();
+      img.src = pokeImages(index);
+      img.onload = () => onLoad(index);
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pokeData.results, offset, regionIndex]);
+
+  const checkAllImagesLoaded = pokeData.results.length === loadedImages.length;
 
   return (
     <div className="grid grid-cols-5">
-      {pokeData?.results?.map(
-        (pokemon: PokemonResults, pokemonIndex: number) => (
-          <div key={pokemonIndex}>
-            <img
-              src={pokeImages(pokemonIndex)}
-              alt={pokemon?.name}
-              className="w-32 h-32 flex items-center"
-            />
-            <span className="flex items-center">{pokemon?.name}</span>
-          </div>
-        )
+      {checkAllImagesLoaded ? (
+        <>
+          {pokeData?.results?.map(
+            (pokemon: PokemonResults, pokemonIndex: number) => (
+              <div key={pokemonIndex}>
+                <IndividualPokemonCard
+                  pokemon={pokemon}
+                  pokeImages={pokeImages(pokemonIndex)}
+                />
+              </div>
+            )
+          )}
+        </>
+      ) : (
+        <div>Images loading please wait :'( '...</div>
       )}
     </div>
   );

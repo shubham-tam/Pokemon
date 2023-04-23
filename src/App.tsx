@@ -5,8 +5,9 @@ import {
   RouterProvider,
 } from "react-router-dom";
 
-import { Games, Home, Pokedex, Pokemon } from "./pages/index.js";
-import { Layout } from "./components/index.js";
+import { Games, Home, Pokedex, Pokemon } from "./pages/index";
+import { Layout } from "./components/index";
+import { PokemonDetail } from "./pages/Pokedex/index";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -15,6 +16,7 @@ const router = createBrowserRouter(
         <Route index element={<Home />} />
         <Route path="pokemon" element={<Pokemon />} />
         <Route path="pokedex" element={<Pokedex />} />
+        <Route path="pokedex/:region/:name/:id" element={<PokemonDetail />} />
         <Route path="games" element={<Games />} />
       </Route>
     </Route>

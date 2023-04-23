@@ -14,10 +14,11 @@ interface IndividualPokemonProps {
   };
   offset: number;
   regionIndex: number;
+  region: string;
 }
 
 const IndividualPokemon = (props: IndividualPokemonProps) => {
-  const { pokeData, offset, regionIndex } = props;
+  const { pokeData, offset, regionIndex, region } = props;
 
   const [loadedImages, setLoadedImages] = useState<number[]>([]);
 
@@ -57,6 +58,8 @@ const IndividualPokemon = (props: IndividualPokemonProps) => {
                 <IndividualPokemonCard
                   pokemon={pokemon}
                   pokeImages={pokeImages(pokemonIndex)}
+                  pokemonIndex={pokemonIndex}
+                  region={region}
                 />
               </div>
             )

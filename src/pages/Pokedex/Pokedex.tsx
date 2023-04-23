@@ -2,11 +2,11 @@ import { useState, useEffect } from "react";
 import { useQuery } from "react-query";
 import { useNavigate } from "react-router-dom";
 
-import IndividualPokemon from "./IndividualPokemon";
 import { regions } from "../../utls/RegionUtls";
 import { Button, Title } from "../../components";
 
 import { API_URL } from "../../constants/appConfig";
+import { IndividualPokemon } from ".";
 
 interface PokemonRegion {
   name: string;
@@ -79,6 +79,7 @@ const Pokedex = () => {
         pokeData={data}
         offset={selectedRegion?.offset}
         regionIndex={selectedRegion?.index}
+        region={selectedRegion?.name}
       />
     </>
   );

@@ -8,7 +8,7 @@ const PokemonDetail = () => {
 
   console.log("pokemonIndex", pokemonName);
 
-  const { isLoading, error, data } = useQuery("currentPokeData", () =>
+  const { data } = useQuery("currentPokeData", () =>
     fetch(`${API_URL}` + `/${pokemonName?.name}`).then((res) => res.json())
   );
 

@@ -1,6 +1,11 @@
 import { useState, useEffect } from "react";
 import { useQuery } from "react-query";
-import { useNavigate } from "react-router-dom";
+import {
+  useLocation,
+  useNavigate,
+  useParams,
+  useSearchParams,
+} from "react-router-dom";
 
 import { regions } from "../../utls/RegionUtls";
 import { Button, Title } from "../../components";
@@ -16,7 +21,13 @@ interface PokemonRegion {
 }
 
 const Pokedex = () => {
+  const pokemonName = useParams();
+
   const navigate = useNavigate();
+
+  const location = useLocation();
+
+  // console.log("location", location);
 
   const [selectedRegion, setSelectedRegion] = useState<PokemonRegion>({
     index: 0,
@@ -24,6 +35,23 @@ const Pokedex = () => {
     offset: 0,
     limit: 151,
   });
+
+  console.log("pokemonName", pokemonName);
+  // useEffect(() => {
+  //   const searchParams = new URLSearchParams(window.location.search);
+  //   let region = searchParams.get("region");
+
+  //   if (performance.navigation.type === 1) {
+  //     searchParams.set("region", "kanto");
+  //     region = "kanto";
+  //     navigate(`?region=kanto`);
+  //   }
+
+  //   const selectedRegion = regions.find((r) => r.name === region);
+  //   if (selectedRegion) {
+  //     setSelectedRegion(selectedRegion);
+  //   }
+  // }, [navigate]);
 
   useEffect(() => {
     const searchParams = new URLSearchParams(window.location.search);

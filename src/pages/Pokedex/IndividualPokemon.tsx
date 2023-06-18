@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { SVG_URL, PNG_URL } from "../../constants/appConfig";
 
 import IndividualPokemonCard from "./IndividualPokemonCard";
+import { Link } from "react-router-dom";
 
 interface PokemonResults {
   name?: string;
@@ -49,26 +50,28 @@ const IndividualPokemon = (props: IndividualPokemonProps) => {
   const checkAllImagesLoaded = pokeData.results.length === loadedImages.length;
 
   return (
-    <div className="grid grid-cols-5">
-      {checkAllImagesLoaded ? (
-        <>
-          {pokeData?.results?.map(
-            (pokemon: PokemonResults, pokemonIndex: number) => (
-              <div key={pokemonIndex}>
-                <IndividualPokemonCard
-                  pokemon={pokemon}
-                  pokeImages={pokeImages(pokemonIndex)}
-                  pokemonIndex={pokemonIndex}
-                  region={region}
-                />
-              </div>
-            )
-          )}
-        </>
-      ) : (
-        <div>Images loading please wait :'( '...</div>
-      )}
-    </div>
+    <>
+      <div className="grid grid-cols-5">
+        {checkAllImagesLoaded ? (
+          <>
+            {pokeData?.results?.map(
+              (pokemon: PokemonResults, pokemonIndex: number) => (
+                <div key={pokemonIndex}>
+                  <IndividualPokemonCard
+                    pokemon={pokemon}
+                    pokeImages={pokeImages(pokemonIndex)}
+                    pokemonIndex={pokemonIndex}
+                    region={region}
+                  />
+                </div>
+              )
+            )}
+          </>
+        ) : (
+          <div>Images loading please wait :'( '...</div>
+        )}
+      </div>
+    </>
   );
 };
 
